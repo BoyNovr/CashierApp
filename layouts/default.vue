@@ -22,15 +22,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      fixed
-      app
-    >
-    <!-- :clipped-left="clipped" -->
-      
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
-   
-    </v-app-bar>
+
     <v-main>
       <v-container fluid>
         <Nuxt />
@@ -90,7 +82,7 @@ export default {
         },
       
       ],
-      title: 'Cashier Application'
+     
     }
   }
 }

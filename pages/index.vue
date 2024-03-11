@@ -1,20 +1,10 @@
 <template>
   <v-row>
     <v-col cols="8" class="frame-content">
-     <products></products>
+     <product></product>
     </v-col>
-    <v-col cols="4">
-     ORDERS
+    <v-col cols="4" class="frame-content white">
+      ORDER
     </v-col>
   </v-row>
 </template>
-
-<style scoped>
-
-.frame-content{
-  height:80vh;
-  overflow-y:auto ;
-}
-</style>
-
-
