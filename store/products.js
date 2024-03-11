@@ -30,3 +30,9 @@ export const mutations={
         state.categoryId=categoryId
     }
 }
+export const actions={
+    actUpdateCategoryId({commit},categoryId){
+        commit('updateCategoryId',categoryId)
+       
+    }
+}

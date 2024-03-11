@@ -42,7 +42,9 @@
     <v-row>
         <v-col v-for="(product,index) in filteredProducts"
         :key="index" cols="2">
-        <v-card :title="product.title"
+        <v-card 
+        @click="addToCarts(product.id)"
+        :title="product.title"
         :ripple="true"
         >
             <v-card-actions>
@@ -58,7 +60,7 @@
 </template>
 
 <script>
-import {mapState,mapMutations} from 'vuex'
+import {mapState,mapMutations,mapActions} from 'vuex'
 export default({
     data(){
         return{
@@ -70,8 +72,10 @@ export default({
         }
     },
     methods:{
-        ...mapMutations('products',{
-            updateCategoryIds:'updateCategoryId'
+        ...mapActions({
+            updateCategoryIds:'products/actUpdateCategoryId',
+            addToCarts:'carts/addToCart'
+
         }),
         resetSearchCategory(){
             this.categoryId=false
