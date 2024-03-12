@@ -1,5 +1,18 @@
 export const state=()=>({
     items:[],
+    additionals:[
+        {
+            title:'Tax',
+            mode:'percentage',
+            value:10,
+        },
+        {
+            title:'Service charge',
+            mode:'fix',
+            value:50000,
+        },
+
+    ]
 })
 
 export const getters={
@@ -22,6 +35,22 @@ export const getters={
         return getters.cartItems.reduce((total,item)=>{
             return total+(item.price*item.quantity)
         },0)
+    },
+    calculatePercentage:(state,getters)=>(value)=>{
+        return (getters.subTotal*value)/100
+    },
+    sumAdditional:(state,getters)=>{
+        if(state.additionals.length){
+            return state.additionals.reduce((total,item)=>{
+                if(item.mode==='percentage'){
+                    return total+getters.calculatePercentage(item.value)
+                }
+                return total+item.value
+            },0)
+        }
+    },
+    total:(state,getters)=>{
+        return getters.subTotal + getters.sumAdditional
     }
 }
 
