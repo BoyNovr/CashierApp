@@ -9,7 +9,7 @@
             :loading="isLoading"
             :items="itemsSearch"
             item-text="title"
-            item-value="title"
+            item-value="_id"
             v-model="selectedSearch"
             return-object
             hide-no-data
@@ -28,10 +28,13 @@
             <v-list-item-group>
             <v-list-item v-for="(category,index) in categories"
             :key="index"
-            :disabled="category.id==categoryId"
-            @change="updateCategoryIds(category.id)">
+            :disabled="category._id==categoryId"
+            @change="updateCategoryIds(category._id)">
             <v-list-item-title>{{ category.title }}</v-list-item-title>
             </v-list-item>
+
+      
+
             </v-list-item-group> 
             </v-list>
         </v-menu>
@@ -43,7 +46,7 @@
         <v-col v-for="(product,index) in filteredProducts"
         :key="index" cols="2">
         <v-card 
-        @click="addToCarts(product.id)"
+        @click="addToCarts(product._id)"
         :title="product.title"
         :ripple="true"
         >
@@ -74,22 +77,22 @@ export default({
     methods:{
         ...mapActions({
             updateCategoryIds:'products/actUpdateCategoryId',
-            addToCarts:'carts/addToCart'
+            addToCarts:'carts/addToCart',
+            fetchProducts:'products/fetchProducts',
+            fetchCategories:'products/fetchCategories'
 
         }),
         resetSearchCategory(){
-            this.categoryId=false
+            this.updateCategoryIds(0)
         }
     },
     computed:{
         filteredProducts() {
     if (this.categoryId) {
         return this.products.filter(product => product.categoryId === this.categoryId);
-    } else if (this.selectedSearch && this.selectedSearch.title) {
-        return this.products.filter(product => product.title.toLowerCase().includes(this.selectedSearch.title.toLowerCase()));
-    } else {
+    } 
         return this.products;
-    }
+    
         },
         ...mapState('products',{
             products:'products',
@@ -109,7 +112,16 @@ export default({
                 })
                 
             },1000)
+        },
+        selectedSearch(product){
+            if(product){
+                this.addToCarts(product._id)
+            }
         }
+    },
+    mounted(){
+        this.fetchProducts()
+        this.fetchCategories()
     }
 })
 </script>
